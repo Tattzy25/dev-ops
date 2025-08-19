@@ -2,7 +2,7 @@
 /*eslint-disable*/
 
 import Link from '@/components/link/Link';
-import MessageBoxChat from '@/components/MessageBox';
+import MessageBox from '@/components/MessageBox';
 import { ChatBody, OpenAIModel } from '@/types/types';
 import {
   Accordion,
@@ -23,7 +23,7 @@ import { useEffect, useState } from 'react';
 import { MdAutoAwesome, MdBolt, MdEdit, MdPerson } from 'react-icons/md';
 import Bg from '../public/img/chat/bg-image.png';
 
-export default function Chat(props: { apiKeyApp: string }) {
+export default function Chat() {
   // Input States
   const [inputOnSubmit, setInputOnSubmit] = useState<string>('');
   const [inputCode, setInputCode] = useState<string>('');
@@ -352,7 +352,7 @@ export default function Chat(props: { apiKeyApp: string }) {
                 color="white"
               />
             </Flex>
-            <MessageBoxChat output={outputCode} />
+            <MessageBox output={outputCode} />
           </Flex>
         </Flex>
         {/* Chat Input */}

@@ -1,12 +1,10 @@
 'use client';
 // chakra imports
 import {
-  Badge,
   Box,
   Button,
   Flex,
   Icon,
-  Link,
   Menu,
   MenuButton,
   MenuList,
@@ -21,11 +19,9 @@ import { NextAvatar } from '@/components/image/Avatar';
 import APIModal from '@/components/apiModal';
 import Brand from '@/components/sidebar/components/Brand';
 import Links from '@/components/sidebar/components/Links';
-import SidebarCard from '@/components/sidebar/components/SidebarCard';
 import { RoundedChart } from '@/components/icons/Icons';
 import { PropsWithChildren } from 'react';
 import { IRoute } from '@/types/navigation';
-import { IoMdPerson } from 'react-icons/io';
 import { FiLogOut } from 'react-icons/fi';
 import { LuHistory } from 'react-icons/lu';
 import { MdOutlineManageAccounts, MdOutlineSettings } from 'react-icons/md';
@@ -51,7 +47,7 @@ function SidebarContent(props: SidebarContent) {
     '4px 17px 40px 4px rgba(112, 144, 176, 0.08)',
     'none',
   );
-  const gray = useColorModeValue('gray.500', 'white');
+  
   // SIDEBAR
   return (
     <Flex
@@ -70,10 +66,6 @@ function SidebarContent(props: SidebarContent) {
         </Box>
       </Stack>
 
-      <Box mt="60px" width={'100%'} display={'flex'} justifyContent={'center'}>
-        <SidebarCard />
-      </Box>
-      <APIModal setApiKey={setApiKey} sidebar={true} />
       <Flex
         mt="8px"
         justifyContent="center"
@@ -126,137 +118,53 @@ function SidebarContent(props: SidebarContent) {
             bg={bgColor}
           >
             <Box mb="30px">
-              <Flex align="center" w="100%" cursor={'not-allowed'}>
+              <Flex cursor={'pointer'} align="center" _hover={{ bg: 'gray.50' }} p="8px" borderRadius="8px">
                 <Icon
                   as={MdOutlineManageAccounts}
                   width="24px"
                   height="24px"
-                  color={gray}
+                  color={iconColor}
                   me="12px"
-                  opacity={'0.4'}
                 />
                 <Text
-                  color={gray}
+                  color={textColor}
                   fontWeight="500"
                   fontSize="sm"
-                  opacity={'0.4'}
                 >
                   Profile Settings
                 </Text>
-                <Link
-                  ms="auto"
-                  isExternal
-                  href="https://horizon-ui.com/ai-template"
-                >
-                  <Badge
-                    display={{ base: 'flex', lg: 'none', xl: 'flex' }}
-                    colorScheme="brand"
-                    borderRadius="25px"
-                    color="brand.500"
-                    textTransform={'none'}
-                    letterSpacing="0px"
-                    px="8px"
-                  >
-                    PRO
-                  </Badge>
-                </Link>
               </Flex>
             </Box>
             <Box mb="30px">
-              <Flex cursor={'not-allowed'} align="center">
+              <Flex cursor={'pointer'} align="center" _hover={{ bg: 'gray.50' }} p="8px" borderRadius="8px">
                 <Icon
                   as={LuHistory}
                   width="24px"
                   height="24px"
-                  color={gray}
-                  opacity="0.4"
+                  color={iconColor}
                   me="12px"
                 />
-                <Text color={gray} fontWeight="500" fontSize="sm" opacity="0.4">
+                <Text color={textColor} fontWeight="500" fontSize="sm">
                   History
                 </Text>
-                <Link
-                  ms="auto"
-                  isExternal
-                  href="https://horizon-ui.com/ai-template"
-                >
-                  <Badge
-                    display={{ base: 'flex', lg: 'none', xl: 'flex' }}
-                    colorScheme="brand"
-                    borderRadius="25px"
-                    color="brand.500"
-                    textTransform={'none'}
-                    letterSpacing="0px"
-                    px="8px"
-                  >
-                    PRO
-                  </Badge>
-                </Link>
               </Flex>
             </Box>
             <Box mb="30px">
-              <Flex cursor={'not-allowed'} align="center">
+              <Flex cursor={'pointer'} align="center" _hover={{ bg: 'gray.50' }} p="8px" borderRadius="8px">
                 <Icon
                   as={RoundedChart}
                   width="24px"
                   height="24px"
-                  color={gray}
-                  opacity="0.4"
+                  color={iconColor}
                   me="12px"
                 />
-                <Text color={gray} fontWeight="500" fontSize="sm" opacity="0.4">
+                <Text color={textColor} fontWeight="500" fontSize="sm">
                   Usage
                 </Text>
-                <Link
-                  ms="auto"
-                  isExternal
-                  href="https://horizon-ui.com/ai-template"
-                >
-                  <Badge
-                    display={{ base: 'flex', lg: 'none', xl: 'flex' }}
-                    colorScheme="brand"
-                    borderRadius="25px"
-                    color="brand.500"
-                    textTransform={'none'}
-                    letterSpacing="0px"
-                    px="8px"
-                  >
-                    PRO
-                  </Badge>
-                </Link>
               </Flex>
             </Box>
-            <Box>
-              <Flex cursor={'not-allowed'} align="center">
-                <Icon
-                  as={IoMdPerson}
-                  width="24px"
-                  height="24px"
-                  color={gray}
-                  opacity="0.4"
-                  me="12px"
-                />
-                <Text color={gray} fontWeight="500" fontSize="sm" opacity="0.4">
-                  My Plan
-                </Text>
-                <Link
-                  ms="auto"
-                  isExternal
-                  href="https://horizon-ui.com/ai-template"
-                >
-                  <Badge
-                    display={{ base: 'flex', lg: 'none', xl: 'flex' }}
-                    colorScheme="brand"
-                    borderRadius="25px"
-                    color="brand.500"
-                    textTransform={'none'}
-                    letterSpacing="0px"
-                    px="8px"
-                  >
-                    PRO
-                  </Badge>
-                </Link>
-              </Flex>
+            <Box mb="30px">
+              <APIModal setApiKey={setApiKey} sidebar={true} />
             </Box>
           </MenuList>
         </Menu>

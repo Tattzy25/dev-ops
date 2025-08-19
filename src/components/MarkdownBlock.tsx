@@ -1,6 +1,6 @@
-import ReactMarkdown from 'react-markdown';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, lazy, Suspense } from 'react';
 
+const ReactMarkdown = lazy(() => import('react-markdown'));
 interface Props {
   code: string;
   editable?: boolean;
@@ -35,7 +35,9 @@ export const MarkdownBlock: FC<Props> = ({
       </button>
 
       <div className="p-4 h-500px bg-[#1A1B26] text-white overflow-scroll rounded-md">
-        <ReactMarkdown className="font-normal">{code}</ReactMarkdown>
+        <Suspense fallback={<div>Loading...</div>}>
+          <ReactMarkdown className="font-normal">{code}</ReactMarkdown>
+        </Suspense>
       </div>
     </div>
   );

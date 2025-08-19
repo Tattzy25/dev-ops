@@ -19,6 +19,7 @@
     "@emotion/styled": "^11.3.0",
     "@heroicons/react": "^2.0.17",
     "@material-tailwind/react": "^1.4.2",
+    "@neondatabase/serverless": "^1.0.1",
     "@tanstack/react-table": "^8.5.15",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",

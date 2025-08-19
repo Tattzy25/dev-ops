@@ -365,7 +365,14 @@ export function SidebarLinks(props: SidebarLinksProps) {
     });
   };
   //  BRAND
-  return <>{createLinks(routes)}</>;
+  // Only render sidebar links for essential pages, remove demo tabs like All Templates, My Projects, Other Pages, Admin Pages
+const filteredRoutes = routes.filter(route => !['All Templates','My Projects','Other Pages','Admin Pages'].includes(route.name));
+// Use filteredRoutes instead of routes in createLinks
+return (
+  <Box>
+    {createLinks(filteredRoutes)}
+  </Box>
+);
 }
 
 export default SidebarLinks;

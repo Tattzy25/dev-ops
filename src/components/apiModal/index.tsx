@@ -28,10 +28,16 @@ import {
 import { useState } from 'react';
 import { MdLock } from 'react-icons/md';
 
+const PROVIDERS = [
+  { name: 'OpenAI', id: 'openai', placeholder: 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx' },
+  // Add more providers here
+];
+
 function APIModal(props: { setApiKey: any; sidebar?: boolean }) {
   const { setApiKey, sidebar } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputCode, setInputCode] = useState<string>('');
+  const [selectedProvider, setSelectedProvider] = useState<string>(PROVIDERS[0].id);
 
   const textColor = useColorModeValue('navy.700', 'white');
   const grayColor = useColorModeValue('gray.500', 'gray.500');
@@ -53,18 +59,22 @@ function APIModal(props: { setApiKey: any; sidebar?: boolean }) {
   return (
     <>
       {sidebar ? (
-        <Button
-          onClick={onOpen}
-          display="flex"
-          variant="api"
-          fontSize={'sm'}
-          fontWeight="600"
-          borderRadius={'45px'}
-          mt="8px"
-          minH="40px"
-        >
-          Set API Key
-        </Button>
+        <Flex cursor={'pointer'} align="center" _hover={{ bg: 'gray.50' }} p="8px" borderRadius="8px" onClick={onOpen}>
+          <Icon
+            as={MdLock}
+            width="24px"
+            height="24px"
+            color={navbarIcon}
+            me="12px"
+          />
+          <Text
+            color={textColor}
+            fontWeight="500"
+            fontSize="sm"
+          >
+            Set API Key
+          </Text>
+        </Flex>
       ) : (
         <Button
           onClick={onOpen}
@@ -91,7 +101,7 @@ function APIModal(props: { setApiKey: any; sidebar?: boolean }) {
               textAlign={'center'}
               color={textColor}
             >
-              Enter your OpenAI API Key
+              Enter your API Key
             </ModalHeader>
             <ModalCloseButton _focus={{ boxShadow: 'none' }} />
             <ModalBody p="0px">
@@ -102,11 +112,18 @@ function APIModal(props: { setApiKey: any; sidebar?: boolean }) {
                 lineHeight="28px"
                 mb="22px"
               >
-                You need an OpenAI API Key to use Horizon AI Template's
-                features. Your API Key is stored locally on your browser and
-                never sent anywhere else.
+                Enter your API key for the selected provider. Your API Key is stored locally on your browser and never sent anywhere else.
               </Text>
               <Flex mb="20px">
+                <select
+                  style={{ marginRight: '10px', borderRadius: '45px', padding: '10px', fontSize: 'sm', fontWeight: 500 }}
+                  value={selectedProvider}
+                  onChange={e => setSelectedProvider(e.target.value)}
+                >
+                  {PROVIDERS.map(p => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
+                </select>
                 <Input
                   h="100%"
                   border="1px solid"
@@ -119,7 +136,7 @@ function APIModal(props: { setApiKey: any; sidebar?: boolean }) {
                   _focus={{ borderColor: 'none' }}
                   _placeholder={{ color: 'gray.500' }}
                   color={inputColor}
-                  placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  placeholder={PROVIDERS.find(p => p.id === selectedProvider)?.placeholder || 'Enter API Key'}
                   onChange={handleChange}
                   value={inputCode}
                 />
@@ -134,114 +151,28 @@ function APIModal(props: { setApiKey: any; sidebar?: boolean }) {
                   w={{ base: '300px', md: '180px' }}
                   h="54px"
                   onClick={() => {
-                    inputCode?.includes('sk-')
-                      ? handleApiKeyChange(inputCode)
-                      : null;
-                    if (inputCode)
+                    if (inputCode) {
+                      handleApiKeyChange(inputCode);
                       toast({
-                        title: inputCode?.includes('sk-')
-                          ? `Success! You have successfully added your API key!`
-                          : !inputCode?.includes('sk-')
-                          ? `Invalid API key. Please make sure your API key is still working properly.`
-                          : 'Please add your API key!',
+                        title: `Success! You have successfully added your API key!`,
                         position: 'top',
-                        status: inputCode?.includes('sk-')
-                          ? 'success'
-                          : !inputCode?.includes('sk-')
-                          ? `error`
-                          : !inputCode
-                          ? 'warning'
-                          : 'error',
+                        status: 'success',
                         isClosable: true,
                       });
+                    } else {
+                      toast({
+                        title: 'Please add your API key!',
+                        position: 'top',
+                        status: 'warning',
+                        isClosable: true,
+                      });
+                    }
                   }}
                 >
                   Save API Key
                 </Button>
               </Flex>
-              <Link
-                color={link}
-                fontSize="sm"
-                href="https://platform.openai.com/account/api-keys"
-                textDecoration="underline !important"
-                fontWeight="600"
-              >
-                Get your API key from Open AI Dashboard
-              </Link>
-              <Accordion allowToggle w="100%" my="16px">
-                <AccordionItem border="none">
-                  <AccordionButton
-                    borderBottom="0px solid"
-                    maxW="max-content"
-                    mx="auto"
-                    _hover={{ border: '0px solid', bg: 'none' }}
-                    _focus={{ border: '0px solid', bg: 'none' }}
-                  >
-                    <Box flex="1" textAlign="left">
-                      <Text
-                        color={textColor}
-                        fontWeight="700"
-                        fontSize={{ sm: 'md', lg: 'md' }}
-                      >
-                        Your API Key is not working?
-                      </Text>
-                    </Box>
-                    <AccordionIcon color={textColor} />
-                  </AccordionButton>
-                  <AccordionPanel p="18px 0px 10px 0px">
-                    <UnorderedList p="5px">
-                      <ListItem
-                        mb="26px"
-                        color={grayColor}
-                        fontSize=",d"
-                        fontWeight="500"
-                      >
-                        Make sure you have an{' '}
-                        <Link
-                          textDecoration="underline"
-                          fontSize=",d"
-                          href="https://platform.openai.com/account/"
-                          fontWeight="500"
-                          color={grayColor}
-                        >
-                          OpenAI account
-                        </Link>{' '}
-                        and a valid API key to use ChatGPT. We don't sell API
-                        keys.
-                      </ListItem>
-                      <ListItem
-                        color={grayColor}
-                        fontSize="md"
-                        lineHeight="28px"
-                        fontWeight="500"
-                      >
-                        Make sure you have your billing info added in{' '}
-                        <Link
-                          textDecoration="underline"
-                          fontSize="md"
-                          lineHeight="28px"
-                          href="https://platform.openai.com/account/billing/overview"
-                          fontWeight="500"
-                          color={grayColor}
-                        >
-                          OpenAI Billing
-                        </Link>{' '}
-                        page. Without billing info, your API key will not work.
-                      </ListItem>
-                    </UnorderedList>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-              <Text
-                color={grayColor}
-                fontWeight="500"
-                fontSize="sm"
-                mb="42px"
-                mx="30px"
-              >
-                *The app will connect to OpenAI API server to check if your API
-                Key is working properly.
-              </Text>
+
             </ModalBody>
           </Card>
         </ModalContent>
